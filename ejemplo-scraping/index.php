@@ -17,6 +17,7 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Lugar</th>
+                    <th>Fecha</th>
                     <th>Hora</th>
                     <th>Link (+Info)</th>
                 </tr>
@@ -33,12 +34,14 @@
                     // Lleno un array con la info obtenida
                     foreach( $contenido as $post ){
                         $mes = $post->find('span',0)->innertext;
+                        $fecha = $post->find('div[class=date-counter]',0)->innertext;
                         $lugar= $post->find('span[class=mapgg]',0)->innertext;
                         $hora = $post->find('span[class=time-span]',0)->innertext;
                         $titulo = $post->find('h3 a',0)->innertext;
                         $url = $post->find('h3 a',0)->attr['href'];
                         $carrera = array("nombre"=>$titulo,
                                       "lugar"=>$lugar,
+                                      "fecha"=>$fecha,
                                       "hora"=>$hora,
                                       "link"=>$url);
                         array_push($carreras,$carrera);
@@ -49,6 +52,7 @@
                         echo "<tr>
                                 <td>".$c["nombre"]."</td>
                                 <td>".$c['lugar']."</td>
+                                <td>".$c['fecha']."</td>
                                 <td>".$c['hora']."</td>
                                 <td><a href='".$c['link']."'>".$c['link']."</a></td>
                              </tr>";
