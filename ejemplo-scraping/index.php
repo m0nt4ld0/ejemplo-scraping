@@ -4,6 +4,8 @@
     <meta charset="utf-8">
     <meta name="description" content="Ejemplo basico de scraping">
     <meta name="author" content="Mariela Silvana Montaldo">
+    
+    <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
 <div id="main">
