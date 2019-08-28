@@ -15,53 +15,39 @@
             <p>Sencillo ejemplo de la t&eacute;cnica de Scraping mediante la cual obtengo las pr&oacute;ximas carreras de calle
                de manera din&aacute;mica.</p>
             <h3>Carreras de calle</h3>
-            <table class="scraping">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Lugar</th>
-                    <th>Fecha</th>
-                    <th>Hora</th>
-                    <th>Link (+Info)</th>
-                </tr>
-                <tr>
+            <form class="filter" action="busqueda.php" method="get">Filtrar por
+                Mes 
+                <select name="mes">
+                   <option value="Ene">Ene</option> 
+                   <option value="Mar">Mar</option> 
+                   <option value="Abr">Abr</option> 
+                   <option value="May">May</option> 
+                   <option value="Jun">Jun</option> 
+                   <option value="Jul">Jul</option> 
+                   <option value="Ago">Ago</option> 
+                   <option value="Sep">Sep</option> 
+                   <option value="Oct">Oct</option> 
+                   <option value="Nov">Nov</option> 
+                   <option value="Dic">Dic</option> 
+                   <!-- Agregar boton de quitar filtros -->
+                </select>
+                Horario
+                <select name="hora">
+                    <option value="AM">AM</option> 
+                   <option value="PM">PM</option> 
+                   <option value="all">Todos</option> 
+                </select>
+                <input type="submit" value="Filtrar" />
+            </form>
                 <?php
                     // EJEMPLO DE SCRAPING 
                     // Obtengo nombre, fecha, lugar y horario de las carreras de calle proximas.
-                    require 'simple_html_dom.php';
+                    require 'scraping.php';
                     
-                    $url = 'https://sportsfacilities.com.ar/carreras/';
-                    $pagina = file_get_html( $url );
-                    $carreras = array();
-                    $contenido = $pagina->find('div[class=span12 modern_style]');
-                    // Lleno un array con la info obtenida
-                    foreach( $contenido as $post ){
-                        $mes = $post->find('span',0)->innertext;
-                        $fecha = $post->find('div[class=date-counter]',0)->innertext;
-                        $lugar= $post->find('span[class=mapgg]',0)->innertext;
-                        $hora = $post->find('span[class=time-span]',0)->innertext;
-                        $titulo = $post->find('h3 a',0)->innertext;
-                        $url = $post->find('h3 a',0)->attr['href'];
-                        $carrera = array("nombre"=>$titulo,
-                                      "lugar"=>$lugar,
-                                      "fecha"=>$fecha,
-                                      "hora"=>$hora,
-                                      "link"=>$url);
-                        array_push($carreras,$carrera);
-                    }
-                    asort($carreras);
-                    //Imprimo en pantalla la tabla
-                    foreach( $carreras as $c ){
-                        echo "<tr>
-                                <td>".$c["nombre"]."</td>
-                                <td>".$c['lugar']."</td>
-                                <td>".$c['fecha']."</td>
-                                <td>".$c['hora']."</td>
-                                <td><a href='".$c['link']."'>".$c['link']."</a></td>
-                             </tr>";
-                    }
-
+                    // Mes y hora nulos trae toda la tabla
+                    mostrarTabla(scrap(null, null));
+                    
                 ?>
-            </table>
         </div>
     </div>
 </div>
