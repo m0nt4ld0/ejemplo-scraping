@@ -1,7 +1,7 @@
 <?php
     // EJEMPLO DE SCRAPING 
     // Obtengo nombre, fecha, lugar y horario de las carreras de calle proximas.
-    require 'simple_html_dom.php';
+    //require 'simple_html_dom.php';
     
     function scrap($mes, $h){
         $url = 'https://sportsfacilities.com.ar/carreras/';
@@ -23,14 +23,26 @@
                              "hora"  => $hora,
                              "link"  => $url);
             
-            //Filtro por mes de la carrera o si no se filtra, cargo todo
+            // Filtro por mes y horario de la carrera o si no se filtra, cargo todo
             
-            if(isset($mes) && trim($mes) !== '')
+            // De la hora extraigo solo si es AM/PM
+            $hora = substr($hora, strlen($hora)-2, 2);
+            
+            //Solo son iguales cuando ambos toman valor 'Todos'
+            if(strcmp($h, $mes)==0)
             {
-                if(strcmp($fecha,$mes)==0)
-                    array_push($carreras,$carrera);
-            } else 
                 array_push($carreras,$carrera);
+            }
+            else 
+            {
+                if(isset($mes) && trim($mes) !== '')
+                {
+                    if(strcmp($fecha, $mes)==0 && strcmp($hora, $h)==0)
+                    {
+                        array_push($carreras, $carrera);
+                    }
+                }
+            }
         }
         asort($carreras);
         return $carreras;
